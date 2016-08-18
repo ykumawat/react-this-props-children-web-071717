@@ -52,8 +52,8 @@ export default class Panel extends React.Component {
 }
 ```
 
-If something like `this.props.children` didn't exist, we'd have to sort to passing in all of our content through a
-normal prop, which would be very unwieldy and look really ugly:
+If something like `this.props.children` didn't exist, we'd have to pass in all of our content through a prop, which
+would be very unwieldy and look really ugly:
 
 ```js
 <Panel title="Browse for movies" body={<div><div>Movie stuff...</div>
