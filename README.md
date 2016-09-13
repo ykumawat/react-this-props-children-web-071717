@@ -6,36 +6,149 @@
 2. Explain how to use the `React.Children` utilities
 3. Practice using and iterating over child components
 
-## Overview
+## Children in a component
+![Sideshow Bob](https://media.giphy.com/media/xT5LMVEIvpgJCWCcog/giphy.gif)
 
-I suspect that this lab will prove a bit more challenging than the other ones in
-this unit. We first want students to understand that `this.props.children` just
-refers to any components passed in as children.
+In React, a component can have one, many or no children. Consider the following code:
 
-A good way to demonstrate this is with a page layout component, e.g.,
-
+```js
+<VideoPlayer>
+  <VideoHeader>
+    <h1 className="video-title">The Simpsons</h1>
+  </VideoHeader>
+  <VideoControls />
+</VideoPlayer>
 ```
-class Layout extends Component {
+
+In this example, the `VideoPlayer` has two children: `VideoHeader` and `VideoControls`. `VideoHeader`, in turn, has one
+child: the `h1` with the title content. `VideoControls`, on the other hand, has no children.
+
+Why is this important? As you can see above, we can use children to compose our interface. For a more concrete example,
+let's say we're creating a `<Panel>` component that allows us to add content to it. Using a panel might look a little
+like this:
+
+```js
+<Panel title="Browse for movies">
+  <div>Movie stuff...</div>
+  <div>Movie stuff...</div>
+  <div>Movie stuff...</div>
+  <div>Movie stuff...</div>
+</Panel>
+```
+
+As you can see, we're adding content *inside* of the `<Panel>` tags. Now, how do we render that content in our
+component? We access it through **`this.props.children`** — a special prop that is passed to components automatically.
+
+```js
+export default class Panel extends React.Component {
   render() {
     return (
-      <div>
-        <header style={{ ... }}>Header; maybe some links</header>
-        {this.props.children}
-        <footer style={{ ... }}>Footer</footer>
+      <div className="panel">
+        <div className="panel-header">{this.props.title}</div>
+        <div className="panel-body">{this.props.children}</div>
       </div>
-    )
+    );
   }
 }
 ```
 
-Have students practice writing and rendering a component like this with
-different child components. Make sure to have at least one example that uses
-an array of siblings as `this.props.children`.
+If something like `this.props.children` didn't exist, we'd have to pass in all of our content through a prop, which
+would be very unwieldy and look really ugly:
 
-Then start walking through the `React.Children` API. These methods should be
-easy to understand once students have a grip on how `this.props.children` works.
+```js
+<Panel title="Browse for movies" body={<div><div>Movie stuff...</div>
+                                              <div>Movie stuff...</div>
+                                              <div>Movie stuff...</div>
+                                              <div>Movie stuff...</div></div>} />
+```
 
+_And_ we'd have to wrap it in an enclosing `div`! Thankfully, we can just nest it inside of the component like we did
+above, much like we nest regular HTML elements.
+
+## React.Children
+Since `this.props.children` can have one element, multiple elements, or none at all, its value is respectively
+`undefined`, a single child node, or an array of child nodes. Sometimes, we want to transform our children before
+rendering them — for example, to add additional props to every child. If we wanted to do that, we'd have to take the
+possible types of `this.props.children` into account. For example, if there is only one child, we can't map it.
+
+Luckily, React provides us with a clean API to handle of looping children. If there is only one child (or none at all),
+it won't throw a fuss — it'll handle things for us nicely in the background.
+
+Let's say we have a list of `Movie` components that are nested inside of a `MovieBrowser` component:
+
+```js
+<MovieBrowser>
+  <Movie title="Mad Max: Fury Road" />
+  <Movie title="Harry Potter & The Goblet Of Fire" />
+</MovieBrowser>
+```
+
+Now, let's assume for some reason that we need to pass down an extra prop to our children — the props would like to know
+if they are being played or not. Our `MovieBrowser` component would look something like this, before we added the prop:
+
+```js
+export default class MovieBrowser extends React.Component {
+  render() {
+    const currentPlayingTitle = 'Mad Max: Fury Road';
+    
+    return (
+      <div className="movie-browser">
+        {this.props.children}
+      </div>      
+    );
+  }
+}
+```
+
+Now let's add in our `isPlaying` prop to the children of `MovieBrowser`:
+
+```js
+export default class MovieBrowser extends React.Component {
+  render() {
+    const currentPlayingTitle = 'Mad Max: Fury Road';
+    const childrenWithExtraProp = React.Children.map(this.props.children, child => {
+      return React.cloneElement(child, {
+        isPlaying: child.props.title === currentPlayingTitle
+      });
+    });
+    
+    return (
+      <div className="movie-browser">
+        {childrenWithExtraProp}
+      </div>      
+    );
+  }
+}
+```
+
+`React.Children.map` has two parameters: the first one is the children themselves, and the second one is a function that
+transforms the value of the child. In this case, we're adding an extra prop. We do that using `React.cloneElement`. As
+the first argument we pass in the child component itself, and as the second argument, we pass in any additional props.
+Those additional props get merged with the child's existing props, overwriting any props with the same key.
+
+## More iteration
+As another example, let's say we want to wrap our components in an extra `div` with a special class. We also want to
+display the total amount of children.
+
+```js
+export default class SomeComponent extends React.Component {
+  render() {
+    const childrenWithWrapperDiv = React.Children.map(this.props.children, child => {
+      return (
+        <div className="some-component-special-class">{child}</div> 
+      );
+    });
+    
+    return (
+      <div className="some-component">
+        <p>This component has {React.Children.count(this.props.children)} children.</p>
+        {childrenWithWrapperDiv}        
+      </div>      
+    );
+  }
+}
+```
 
 ## Resources
-
-- [React.Children](https://facebook.github.io/react/docs/top-level-api.html#react.children)
+- [Explanation on Children](https://facebook.github.io/react/docs/multiple-components.html#children)
+- [React.Children API](https://facebook.github.io/react/docs/top-level-api.html#react.children)
