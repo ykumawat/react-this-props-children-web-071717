@@ -1,10 +1,14 @@
 # React this.props.children
 
+## Overview
+
+We'll cover what  `this.props.children` means int he context of a React component. 
+
 ## Objectives
 
-1. Explain what `this.props.children` means in the context of a React component
+1. Use `this.props.children` to render content in our component
 2. Explain how to use the `React.Children` utilities
-3. Practice using and iterating over child components
+3. Use and iterate over child components
 
 ## Children in a component
 ![Sideshow Bob](https://media.giphy.com/media/xT5LMVEIvpgJCWCcog/giphy.gif)
