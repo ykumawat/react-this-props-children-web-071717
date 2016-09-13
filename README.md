@@ -66,7 +66,7 @@ _And_ we'd have to wrap it in an enclosing `div`! Thankfully, we can just nest i
 above, much like we nest regular HTML elements.
 
 ## React.Children
-Since `this.props.children` can have one element, multiple elements or none at all, its value is respectively
+Since `this.props.children` can have one element, multiple elements, or none at all, its value is respectively
 `undefined`, a single child node, or an array of child nodes. Sometimes, we want to transform our children before
 rendering them — for example, to add additional props to every child. If we wanted to do that, we'd have to take into
 account what the possible types of `this.props.children` are. For example, if there is only one child, we can't map it.
