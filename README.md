@@ -68,8 +68,8 @@ above, much like we nest regular HTML elements.
 ## React.Children
 Since `this.props.children` can have one element, multiple elements, or none at all, its value is respectively
 `undefined`, a single child node, or an array of child nodes. Sometimes, we want to transform our children before
-rendering them — for example, to add additional props to every child. If we wanted to do that, we'd have to take into
-account what the possible types of `this.props.children` are. For example, if there is only one child, we can't map it.
+rendering them — for example, to add additional props to every child. If we wanted to do that, we'd have to take the
+possible types of `this.props.children` into account. For example, if there is only one child, we can't map it.
 
 Luckily, React provides us with a clean API to handle of looping children. If there is only one child (or none at all),
 it won't throw a fuss — it'll handle things for us nicely in the background.
@@ -123,8 +123,8 @@ export default class MovieBrowser extends React.Component {
 
 `React.Children.map` has two parameters: the first one is the children themselves, and the second one is a function that
 transforms the value of the child. In this case, we're adding an extra prop. We do that using `React.cloneElement`. As
-the first argument we pass in the component itself (the child), and as the second argument, we pass in any additional
-props. Those additional props get merged with the child's existing props, overwriting any props with the same key.
+the first argument we pass in the child component itself, and as the second argument, we pass in any additional props.
+Those additional props get merged with the child's existing props, overwriting any props with the same key.
 
 ## More iteration
 As another example, let's say we want to wrap our components in an extra `div` with a special class. We also want to
