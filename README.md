@@ -2,7 +2,7 @@
 
 ## Overview
 
-We'll cover what  `this.props.children` means int he context of a React component. 
+We'll cover what  `this.props.children` means in the context of a React component. 
 
 ## Objectives
 
@@ -24,12 +24,9 @@ In React, a component can have one, many or no children. Consider the following 
 </VideoPlayer>
 ```
 
-In this example, the `VideoPlayer` has two children: `VideoHeader` and `VideoControls`. `VideoHeader`, in turn, has one
-child: the `h1` with the title content. `VideoControls`, on the other hand, has no children.
+In this example, the `VideoPlayer` has two children: `VideoHeader` and `VideoControls`. `VideoHeader`, in turn, has one child: the `h1` with the title content. `VideoControls`, on the other hand, has no children.
 
-Why is this important? As you can see above, we can use children to compose our interface. For a more concrete example,
-let's say we're creating a `<Panel>` component that allows us to add content to it. Using a panel might look a little
-like this:
+Why is this important? As you can see above, we can use children to compose our interface. For a more concrete example, let's say we're creating a `<Panel>` component that allows us to add content to it. Using a panel might look a little like this:
 
 ```js
 <Panel title="Browse for movies">
@@ -40,8 +37,7 @@ like this:
 </Panel>
 ```
 
-As you can see, we're adding content *inside* of the `<Panel>` tags. Now, how do we render that content in our
-component? We access it through **`this.props.children`** — a special prop that is passed to components automatically.
+As you can see, we're adding content *inside* of the `<Panel>` tags. Now, how do we render that content in our component? We access it through **`this.props.children`** — a special prop that is passed to components automatically.
 
 ```js
 export default class Panel extends React.Component {
@@ -56,8 +52,7 @@ export default class Panel extends React.Component {
 }
 ```
 
-If something like `this.props.children` didn't exist, we'd have to pass in all of our content through a prop, which
-would be very unwieldy and look really ugly:
+If something like `this.props.children` didn't exist, we'd have to pass in all of our content through a prop, which would be very unwieldy and look really ugly:
 
 ```js
 <Panel title="Browse for movies" body={<div><div>Movie stuff...</div>
@@ -66,17 +61,12 @@ would be very unwieldy and look really ugly:
                                               <div>Movie stuff...</div></div>} />
 ```
 
-_And_ we'd have to wrap it in an enclosing `div`! Thankfully, we can just nest it inside of the component like we did
-above, much like we nest regular HTML elements.
+_And_ we'd have to wrap it in an enclosing `div`! Thankfully, we can just nest it inside of the component like we did above, much like we nest regular HTML elements.
 
 ## React.Children
-Since `this.props.children` can have one element, multiple elements, or none at all, its value is respectively
-`undefined`, a single child node, or an array of child nodes. Sometimes, we want to transform our children before
-rendering them — for example, to add additional props to every child. If we wanted to do that, we'd have to take the
-possible types of `this.props.children` into account. For example, if there is only one child, we can't map it.
+Since `this.props.children` can have one element, multiple elements, or none at all, its value is respectively `undefined`, a single child node, or an array of child nodes. Sometimes, we want to transform our children before rendering them — for example, to add additional props to every child. If we wanted to do that, we'd have to take the possible types of `this.props.children` into account. For example, if there is only one child, we can't map it.
 
-Luckily, React provides us with a clean API to handle of looping children. If there is only one child (or none at all),
-it won't throw a fuss — it'll handle things for us nicely in the background.
+Luckily, React provides us with a clean API to handle of looping children. If there is only one child (or none at all), it won't throw a fuss — it'll handle things for us nicely in the background.
 
 Let's say we have a list of `Movie` components that are nested inside of a `MovieBrowser` component:
 
@@ -87,8 +77,7 @@ Let's say we have a list of `Movie` components that are nested inside of a `Movi
 </MovieBrowser>
 ```
 
-Now, let's assume for some reason that we need to pass down an extra prop to our children — the props would like to know
-if they are being played or not. Our `MovieBrowser` component would look something like this, before we added the prop:
+Now, let's assume for some reason that we need to pass down an extra prop to our children — the props would like to know if they are being played or not. Our `MovieBrowser` component would look something like this, before we added the prop:
 
 ```js
 export default class MovieBrowser extends React.Component {
@@ -125,14 +114,10 @@ export default class MovieBrowser extends React.Component {
 }
 ```
 
-`React.Children.map` has two parameters: the first one is the children themselves, and the second one is a function that
-transforms the value of the child. In this case, we're adding an extra prop. We do that using `React.cloneElement`. As
-the first argument we pass in the child component itself, and as the second argument, we pass in any additional props.
-Those additional props get merged with the child's existing props, overwriting any props with the same key.
+`React.Children.map` has two parameters: the first one is the children themselves, and the second one is a function that transforms the value of the child. In this case, we're adding an extra prop. We do that using `React.cloneElement`. As the first argument we pass in the child component itself, and as the second argument, we pass in any additional props. Those additional props get merged with the child's existing props, overwriting any props with the same key.
 
 ## More iteration
-As another example, let's say we want to wrap our components in an extra `div` with a special class. We also want to
-display the total amount of children.
+As another example, let's say we want to wrap our components in an extra `div` with a special class. We also want to display the total amount of children.
 
 ```js
 export default class SomeComponent extends React.Component {
