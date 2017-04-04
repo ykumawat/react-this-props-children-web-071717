@@ -141,5 +141,3 @@ export default class SomeComponent extends React.Component {
 ## Resources
 - [Explanation on Children](https://facebook.github.io/react/docs/multiple-components.html#children)
 - [React.Children API](https://facebook.github.io/react/docs/top-level-api.html#react.children)
-
-<p class='util--hide'>View <a href='https://learn.co/lessons/react-this-props-children'>this.props.childen</a> on Learn.co and start learning to code for free.</p>
