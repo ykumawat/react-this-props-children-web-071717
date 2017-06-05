@@ -55,10 +55,17 @@ export default class Panel extends React.Component {
 If something like `this.props.children` didn't exist, we'd have to pass in all of our content through a prop, which would be very unwieldy and look really ugly:
 
 ```js
-<Panel title="Browse for movies" body={<div><div>Movie stuff...</div>
-                                              <div>Movie stuff...</div>
-                                              <div>Movie stuff...</div>
-                                              <div>Movie stuff...</div></div>} />
+<Panel 
+  title="Browse for movies" 
+  body={
+    <div>
+      <div>Movie stuff...</div>
+      <div>Movie stuff...</div>
+      <div>Movie stuff...</div>
+      <div>Movie stuff...</div>
+    </div>
+  } 
+/>
 ```
 
 _And_ we'd have to wrap it in an enclosing `div`! Thankfully, we can just nest it inside of the component like we did above, much like we nest regular HTML elements.
